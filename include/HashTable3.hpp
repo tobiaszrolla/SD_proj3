@@ -154,7 +154,7 @@ public:
     }
 };
 
-class HashTable {
+class HashTable3 {
 private:
     static const int hashGroups = 10;
     AVLTree* table[hashGroups];
@@ -164,13 +164,13 @@ private:
     }
 
 public:
-    HashTable() {
+    HashTable3() {
         for (int i = 0; i < hashGroups; i++) {
             table[i] = new AVLTree();
         }
     }
 
-    ~HashTable() {
+    ~HashTable3() {
         for (int i = 0; i < hashGroups; i++) {
             delete table[i];
         }
