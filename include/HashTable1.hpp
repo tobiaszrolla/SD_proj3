@@ -1,8 +1,8 @@
 #ifndef HASHTABLE1_H_
 #define HASHTABLE1_H_
-#include <iostream>
+#include "HashTable.hpp"
 /* Liniowe hashowanie*/
-class HashTable1
+class HashTable1 :public HashTable
 {
 private:
     struct HashNode
@@ -27,6 +27,10 @@ private:
 public:
     //konst destr
     HashTable1();
+    //głębokie kopiowanie
+    HashTable1(const HashTable1& other);
+    //przeciążenie operatora =
+    HashTable1& operator=(const HashTable1& other);
     ~HashTable1();
     //dodanie klucza z wartością
     void insert(int key, std::string value);
@@ -34,6 +38,8 @@ public:
     void remove(int key);
     //display 
     void display();
+    //clon aby dobrze kopiować metody virtualne
+    HashTable1* clone() const;
 
 };
 

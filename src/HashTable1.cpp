@@ -25,11 +25,31 @@ void HashTable1::revrite()
         }
     delete[] old_table;
 }
-
-HashTable1::HashTable1(): size{10}, count{0}
+HashTable1::HashTable1(): size(80000), count(0)
 {
     table = new HashNode[size];
-};
+}
+HashTable1::HashTable1(const HashTable1 &other): size(other.size), count(other.count) {
+    table = new HashNode[size];
+    for (int i = 0; i < size; ++i) {
+        table[i] = other.table[i];
+    }
+}
+HashTable1& HashTable1::operator=(const HashTable1& other)
+{
+    if (this == &other) return *this;
+        
+        delete[] table;
+        
+        size = other.size;
+        count = other.count;
+        table = new HashNode[size];
+        for (int i = 0; i < size; ++i) {
+            table[i] = other.table[i];
+        }
+        
+        return *this;
+}
 HashTable1::~HashTable1()
 {
     delete[] table;
@@ -37,7 +57,7 @@ HashTable1::~HashTable1()
 
 void HashTable1::insert(int key, std::string value)
 {
-    if(count >= size)
+    if(count >= size*loadfactor)
     {
         this->revrite();
     }
@@ -51,6 +71,8 @@ void HashTable1::insert(int key, std::string value)
     table[index_iter].value = value;
     table[index_iter].is_deleted = false;
     count++;
+
+    
 }
 
 void HashTable1::remove(int key)
@@ -79,4 +101,7 @@ void HashTable1::display()
         }
         
     }
+}
+HashTable1* HashTable1::clone() const{
+    return new HashTable1(*this);
 }
