@@ -7,7 +7,6 @@
 
 using namespace std;
 
-//template <typename KeyType, typename ValueType>
 class HashTable2 {
 private:
     static const int MAX_LOOP = 50; 
