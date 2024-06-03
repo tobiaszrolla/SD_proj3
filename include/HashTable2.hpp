@@ -7,27 +7,26 @@
 
 using namespace std;
 
-template <typename KeyType, typename ValueType>
-class CuckooHashTable {
+class HashTable2 {
 private:
     static const int MAX_LOOP = 50; 
 
     struct Entry {
-        KeyType key;
-        ValueType value;
+        int key;
+        string value;
         bool occupied;
 
         Entry() : occupied(false) {}
-        Entry(KeyType k, ValueType v, bool occ) : key(k), value(v), occupied(occ) {}
+        Entry(int k, string v, bool occ) : key(k), value(v), occupied(occ) {}
     };
 
     vector<vector<Entry>> tables;
     size_t table_size;
-    hash<KeyType> hash1;
-    hash<KeyType> hash2;
+    hash<int> hash1;
+    hash<int> hash2;
 
     void rehash() {
-        vector<pair<KeyType, ValueType>> old_elements;
+        vector<pair<int, string>> old_elements;
         for (const auto& table : tables) {
             for (const auto& entry : table) {
                 if (entry.occupied) {
@@ -42,17 +41,17 @@ private:
         }
     }
 
-    size_t hash_function1(const KeyType& key) const {
+    size_t hash_function1(const int& key) const {
         return hash1(key) % table_size;
     }
 
-    size_t hash_function2(const KeyType& key) const {
+    size_t hash_function2(const int& key) const {
         return hash2(key) % table_size;
     }
 
-    void swap(Entry& a, KeyType& key, ValueType& value) {
-        KeyType temp_key = a.key;
-        ValueType temp_value = a.value;
+    void swap(Entry& a, int& key, string& value) {
+        int temp_key = a.key;
+        string temp_value = a.value;
 
         a.key = key;
         a.value = value;
@@ -62,16 +61,16 @@ private:
     }
 
 public:
-    CuckooHashTable(size_t initial_size = 16)
+    HashTable2(size_t initial_size = 16)
         : table_size(initial_size) {
         tables = vector<vector<Entry>>(2, vector<Entry>(table_size));
     }
 
-    ~CuckooHashTable() {}
+    ~HashTable2() {}
 
-    void insert(const KeyType& key, const ValueType& value) {
-        KeyType current_key = key;
-        ValueType current_value = value;
+    void insert(const int& key, const string& value) {
+        int current_key = key;
+        string current_value = value;
         int count = 0;
 
         while (count < MAX_LOOP) {
@@ -98,7 +97,7 @@ public:
         insert(current_key, current_value);
     }
 
-    void remove(const KeyType& key) {
+    void remove(const int& key) {
         size_t pos1 = hash_function1(key);
         if (tables[0][pos1].occupied && tables[0][pos1].key == key) {
             tables[0][pos1].occupied = false;
