@@ -5,11 +5,12 @@
 #include "/home/tobiasz/SD_proj3/include/HashTable.hpp"
 #include "/home/tobiasz/SD_proj3/include/HashTable1.hpp"
 #include "/home/tobiasz/SD_proj3/include/HashTable2.hpp"
+#include "/home/tobiasz/SD_proj3/include/HashTable3.hpp"
 
 using namespace std;
-const int nr_structures{500};
-const int nr_str_copys{50};
-const int key_range{60000};
+const int nr_structures{5000};
+const int nr_str_copys{100};
+const int key_range{5000};
 const int valu_lenght{10};
 int *addRandNumber(HashTable* hashtable)
 {
@@ -76,14 +77,14 @@ int main()
     int* keys_tab;
     long long int restab[10];
     long long int restab2[10];
-    HashTable2 hash2;
+    HashTable3 hash2;
     HashTable* hash = &hash2;
     for(int j = 0; j < 10; j++)
     {
         keys_tab = addRandNumber(hash);
         restab[j] = insertTime(hash);
         restab2[j] = removeTime(hash, keys_tab);
-        delete keys_tab;
+        delete[] keys_tab;
     }
     
     for(int i = 0; i<10; i++)

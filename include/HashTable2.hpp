@@ -135,7 +135,7 @@ using namespace std;
 class HashTable2 :public HashTable
 {
 private:
-    static const int MAX_LOOP = 50; 
+    static const int MAX_LOOP = 8000;//50; 
 
     struct Entry {
         int key;
@@ -159,7 +159,7 @@ private:
     void swap(Entry& a, int& key, string& value);
 
 public:
-    HashTable2(size_t initial_size = 80000);
+    HashTable2(size_t initial_size = 20);
 
     ~HashTable2();
 

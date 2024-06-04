@@ -94,14 +94,22 @@ void HashTable2::display(){
     }
 }
 
+/*HashTable2::HashTable2(const HashTable2& other)
+    : table_size(other.table_size), hash1(other.hash1), hash2(other.hash2) {
+
+    tables = other.tables; 
+}*/
 HashTable2::HashTable2(const HashTable2& other)
     : table_size(other.table_size), hash1(other.hash1), hash2(other.hash2) {
-        /*
-            Konstruktor kopiujący głęboki
-        */
-    tables = other.tables; 
-}
-
+    // Kopiowanie głębokie wektora tablic
+    tables.resize(2);
+    for (size_t i = 0; i < 2; ++i) {
+        tables[i].resize(table_size);
+        for (size_t j = 0; j < table_size; ++j) {
+            tables[i][j] = other.tables[i][j];
+        }
+    }
+};
 HashTable2* HashTable2::clone() const {
     /*
         Pozwala na kopiowanie klasie bazowej
