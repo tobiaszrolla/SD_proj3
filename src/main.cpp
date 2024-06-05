@@ -7,10 +7,14 @@
 #include "/home/tobiasz/SD_proj3/include/HashTable2.hpp"
 #include "/home/tobiasz/SD_proj3/include/HashTable3.hpp"
 
+/*
+    Aplikacja testująca wykożystuje 
+    metode wirtualną i metode clone
+*/
 using namespace std;
 const int nr_structures{5000};
 const int nr_str_copys{100};
-const int key_range{5000};
+const int key_range{50000};
 const int valu_lenght{10};
 int *addRandNumber(HashTable* hashtable)
 {
@@ -66,27 +70,41 @@ int removeTime(HashTable* hashtable, int *keys_tab)
 }
 int main()
 {
-    /*HashTable2 hash;
-    hash.insert(22,"341411dafa");
-    hash.display();
-    hash.remove(22);
-    hash.display();*/   
     srand(time(NULL));
     
     ofstream data("../data.txt");
     int* keys_tab;
-    long long int restab[10];
-    long long int restab2[10];
-    HashTable3 hash2;
-    HashTable* hash = &hash2;
-    for(int j = 0; j < 10; j++)
+    long long int restab[11];
+    long long int restab2[11];
+    HashTable2 hash1;
+    HashTable2 hash2;
+    HashTable3 hash3;
+    HashTable* hash = &hash1;
+    char chouse_imp;
+    cout<<"1: i defult adresacja otwarta"<<endl
+    <<"2: kukułcze"<<endl
+    <<"3: drzewo AVL"<<endl<<endl;
+    cin>>chouse_imp;
+    switch (chouse_imp)
+    {
+    case '1':
+        break;
+    case '2':
+        hash = &hash2;
+        break;
+    case '3':
+        hash = &hash3;
+        break;
+    default:
+        break;
+    }
+    for(int j = 0; j < 11; j++)
     {
         keys_tab = addRandNumber(hash);
         restab[j] = insertTime(hash);
         restab2[j] = removeTime(hash, keys_tab);
-        delete[] keys_tab;
     }
-    
+    delete[] keys_tab;
     for(int i = 0; i<10; i++)
         {
         cout<<restab[i]<<endl;

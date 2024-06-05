@@ -27,6 +27,9 @@ void HashTable1::revrite()
 }
 HashTable1::HashTable1(): size(80000), count(0)
 {
+    /*
+        Domyślny konstruktor
+    */
     table = new HashNode[size];
 }
 HashTable1::HashTable1(const HashTable1 &other): size(other.size), count(other.count) {
@@ -37,6 +40,10 @@ HashTable1::HashTable1(const HashTable1 &other): size(other.size), count(other.c
 }
 HashTable1& HashTable1::operator=(const HashTable1& other)
 {
+    /*
+        Przeciążenie = okazało
+        się zbędne
+    */
     if (this == &other) return *this;
         
         delete[] table;
@@ -52,11 +59,20 @@ HashTable1& HashTable1::operator=(const HashTable1& other)
 }
 HashTable1::~HashTable1()
 {
+    /*
+        Usuwa dynamicznie 
+        alokowaną tablice
+    */
     delete[] table;
 }
 
 void HashTable1::insert(int key, std::string value)
 {
+    /*
+        Dodawanie elementu 1 sprawdzienie czy nie przekroczyliśmy lodefactor*
+        size jeśli powiększ tablice 2: funkcja hashująca 
+        3: zmiana wartości indexu jeśli miejsce zajęte
+    */
     if(count >= size*loadfactor)
     {
         this->revrite();
@@ -77,6 +93,10 @@ void HashTable1::insert(int key, std::string value)
 
 void HashTable1::remove(int key)
 {
+    /*
+        Na podstawie podanego klucza 
+        jeśli nie usunięte usuń
+    */
     int index = hashFunction(key);
     while (table[index].key != -1)
     {
@@ -93,6 +113,10 @@ void HashTable1::remove(int key)
 
 void HashTable1::display()
 {
+    /*
+        Wyświetl wszystkie klucze 
+        i wartości w tablicy
+    */
     for(int i = 0; i < size; i++)
     {
         if(table[i].key != -1 && !table[i].is_deleted)

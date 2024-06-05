@@ -21,7 +21,7 @@ size_t HashTable2::hash_function1(const int& key) const {
 }
 
 size_t HashTable2::hash_function2(const int& key) const {
-    return hash2(key) % table_size;
+    return hash2(key) % (table_size-1)+1;
 }
 
 void HashTable2::swap(Entry& a, int& key, string& value) {
@@ -47,8 +47,8 @@ void HashTable2::insert(int key, string value) {
     string current_value = value;
     int count = 0;
 
-    while (count < MAX_LOOP) {
-        size_t pos1 = hash_function1(current_key);
+    while (count < int(table_size*load_facor)) {
+        size_t pos1 = hash_function1(current_key + count);
         if (!tables[0][pos1].occupied) {
             tables[0][pos1] = Entry(current_key, current_value, true);
             return;
@@ -56,7 +56,7 @@ void HashTable2::insert(int key, string value) {
             swap(tables[0][pos1], current_key, current_value);
         }
 
-        size_t pos2 = hash_function2(current_key);
+        size_t pos2 = hash_function2(current_key + count);
         if (!tables[1][pos2].occupied) {
             tables[1][pos2] = Entry(current_key, current_value, true);
             return;
@@ -66,7 +66,6 @@ void HashTable2::insert(int key, string value) {
 
         count++;
     }
-
     rehash();
     insert(current_key, current_value);
 }
@@ -94,22 +93,14 @@ void HashTable2::display(){
     }
 }
 
-/*HashTable2::HashTable2(const HashTable2& other)
-    : table_size(other.table_size), hash1(other.hash1), hash2(other.hash2) {
-
-    tables = other.tables; 
-}*/
 HashTable2::HashTable2(const HashTable2& other)
     : table_size(other.table_size), hash1(other.hash1), hash2(other.hash2) {
-    // Kopiowanie głębokie wektora tablic
-    tables.resize(2);
-    for (size_t i = 0; i < 2; ++i) {
-        tables[i].resize(table_size);
-        for (size_t j = 0; j < table_size; ++j) {
-            tables[i][j] = other.tables[i][j];
-        }
-    }
-};
+        /*
+            Konstruktor kopiujący głęboki
+        */
+    tables = other.tables; 
+}
+
 HashTable2* HashTable2::clone() const {
     /*
         Pozwala na kopiowanie klasie bazowej
